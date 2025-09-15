@@ -2,103 +2,22 @@ import os
 import time
 import requests
 print("Welcome to CustomBank")
-found = False
-current_name = ""
-current_id = ""
-current_reg = ""
-money = 0
-Name = input("What is your bank name?: ")
-ID = input("What is your id?: ")
-Reg = input("What is your Registration key:? ")
-filename = f"CustomBank_{Name}_{ID}_{Reg}.txt"
-if not os.path.exists("accounts.txt"):
-    os.system("touch accounts.txt") ## I did it using the "os" library because i like to do it that way    
-                
-with open("accounts.txt") as f:
-    for line in f:
-        line = line.strip()
-        if line.startswith("Name: "):
-            current_name = line[6:].strip()
-    
-        elif line.startswith("ID: "):
-            current_id = line[4:].strip()
-    
-        elif line.startswith("Registration key: "):
-            current_reg = line[17:].strip()
-    
-        if Name == current_name and ID == current_id and Reg == current_reg:
-           ## requests.post("https://ntfy.sh/bankntfy",
-             ##   data=f"{current_name} with id {current_id} signed in".encode(encoding='utf-8'))
-            found = True
-            break
-            
-
-if not found:
-    print("Account not found")
-    exit()
-
-if found:
-    if not os.path.exists(filename):
-        with open(filename, "w") as u:
-            u.write("Name: " + Name + "\n")
-            u.write("ID: " + ID + "\n")
-            u.write("REG: " + Reg + "\n")
-            u.write(f"Balance: {money}\n")
-            u.write("\n")
-            u.close()
-    print("Account found")
-    with open(filename) as f:
-        for line in f:
-            if line.startswith("Balance: "):
-                money = int(line[9:].strip())
-
-    while True:
-        print("[1] Deposit")
-        print("[2] Delete money")
-        print("[3] Show money")
-        print("[4] Transfer money")
-        print("[5] Exit")
-        print("[6] About me")
-        options = input("What Option do you want to select?: ")
-
-
-        if options == "1":
-            deposit = int(input("How much do you want to deposit?: "))
-            money += deposit
-            os.system("clear")
-            with open(filename, "w") as g:
-                g.write("Name: " + current_name + "\n")
-                g.write("ID: " + current_id + "\n")
-                g.write("REG: " + current_reg + "\n")
-                g.write(f"Balance: {money}\n")
-                g.write("\n")
-                g.close()
-                print(f"Your new balance is {money}")
-                ## requests.post("https://ntfy.sh/bankntfy",
-                                       ## data=f"{current_name} deposited {deposit}$ his money is {money}$ with id {current_id}".encode(encoding='utf-8'))                   
-                    
-
-        elif options == "2": ##-
-            withdraw = int(input("How much do you want to withdraw?: "))
-            if money < withdraw:
-                print("Insufficant funds")
-
-        elif options == "6":
-            lisenceor = input("Do you want to show the license or disclaimer? (Type license or disclaimer)").lower()
-            if lisenceor == "disclaimer":
+licenseor = input("Would you like to see the license and disclaimer or continue to the application (continue/license/disclaimer)?: ").lower()
+if licenseor == "disclaimer":
                 print('About me')
-                print("""Disclaimer: THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
-                APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
-                HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
-                OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
-                THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-                PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
-                IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
-                ALL NECESSARY SERVICING, REPAIR OR CORRECTION.""")
-
-            if lisenceor == "license":
-                print("""GNU GENERAL PUBLIC LICENSE
-                   Version 3, 29 June 2007
+                print(
+                        "Disclaimer: THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY "
+                        "APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT "
+                        "HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM \"AS IS\" WITHOUT WARRANTY "
+                        "OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, "
+                        "THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR "
+                        "PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM "
+                        "IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF "
+                        "ALL NECESSARY SERVICING, REPAIR OR CORRECTION."
+                    )    
+if licenseor == "license":
+    print("""GNU GENERAL PUBLIC LICENSE
+             Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
  Everyone is permitted to copy and distribute verbatim copies
@@ -772,6 +691,90 @@ the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
 """)
+found = False
+current_name = ""
+current_id = ""
+current_reg = ""
+money = 0
+Name = input("What is your bank name?: ")
+ID = input("What is your id?: ")
+Reg = input("What is your Registration key:? ")
+filename = f"CustomBank_{Name}_{ID}_{Reg}.txt"
+if not os.path.exists("accounts.txt"):
+    os.system("touch accounts.txt") ## I did it using the "os" library because i like to do it that way    
+                
+with open("accounts.txt") as f:
+    for line in f:
+        line = line.strip()
+        if line.startswith("Name: "):
+            current_name = line[6:].strip()
+    
+        elif line.startswith("ID: "):
+            current_id = line[4:].strip()
+    
+        elif line.startswith("Registration key: "):
+            current_reg = line[17:].strip()
+    
+        if Name == current_name and ID == current_id and Reg == current_reg:
+           ## requests.post("https://ntfy.sh/bankntfy",
+             ##   data=f"{current_name} with id {current_id} signed in".encode(encoding='utf-8'))
+            found = True
+            break
+            
+
+if not found:
+    print("Account not found")
+    exit()
+
+if found:
+    if not os.path.exists(filename):
+        with open(filename, "w") as u:
+            u.write("Name: " + Name + "\n")
+            u.write("ID: " + ID + "\n")
+            u.write("REG: " + Reg + "\n")
+            u.write(f"Balance: {money}\n")
+            u.write("\n")
+            u.close()
+    print("Account found")
+    with open(filename) as f:
+        for line in f:
+            if line.startswith("Balance: "):
+                money = int(line[9:].strip())
+
+    while True:
+        print("[1] Deposit")
+        print("[2] Delete money")
+        print("[3] Show money")
+        print("[4] Transfer money")
+        print("[5] Exit")
+        print("[6] About me")
+        options = input("What Option do you want to select?: ")
+
+
+        if options == "1":
+            deposit = int(input("How much do you want to deposit?: "))
+            money += deposit
+            os.system("clear")
+            with open(filename, "w") as g:
+                g.write("Name: " + current_name + "\n")
+                g.write("ID: " + current_id + "\n")
+                g.write("REG: " + current_reg + "\n")
+                g.write(f"Balance: {money}\n")
+                g.write("\n")
+                g.close()
+                print(f"Your new balance is {money}")
+                ## requests.post("https://ntfy.sh/bankntfy",
+                                       ## data=f"{current_name} deposited {deposit}$ his money is {money}$ with id {current_id}".encode(encoding='utf-8'))                   
+                    
+
+        elif options == "2": ##-
+            withdraw = int(input("How much do you want to withdraw?: "))
+            if money < withdraw:
+                print("Insufficant funds")
+
+        
+
+            
             else:
                 money -= withdraw
                 ## requests.post("https://ntfy.sh/bankntfy",
